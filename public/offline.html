@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Atelier Luminform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            border-radius: 1rem;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #F0F9FF;
+            border: 1px solid #0EA5E9;
+            border-radius: 0.5rem;
+            color: #0369A1;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 640px) {
+            .offline-container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="logo">AL</div>
+        <h1>Sie sind offline</h1>
+        <p>
+            Es scheint, als hätten Sie keine Internetverbindung. 
+            Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.
+        </p>
+        <button class="retry-btn" onclick="window.location.reload()">
+            Erneut versuchen
+        </button>
+        <div class="status" id="status">
+            Verbindung wird überprüft...
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function updateStatus() {
+            const statusEl = document.getElementById('status');
+            
+            if (navigator.onLine) {
+                statusEl.textContent = '✅ Verbindung wiederhergestellt!';
+                statusEl.style.background = '#F0FDF4';
+                statusEl.style.borderColor = '#22C55E';
+                statusEl.style.color = '#15803D';
+                
+                // Auto-reload after a short delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                statusEl.textContent = '❌ Keine Internetverbindung';
+                statusEl.style.background = '#FEF2F2';
+                statusEl.style.borderColor = '#EF4444';
+                statusEl.style.color = '#DC2626';
+            }
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+        
+        // Initial check
+        updateStatus();
+    </script>
+</body>
+</html>
